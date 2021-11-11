@@ -4,10 +4,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <title>Calorie Calculator</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="script" href="script.py"
+        <link rel="script" href="script.py">
+        <script src="https://cdn.jsdelivr.net/npm/brython@3.8.10/brython.min.js"> </script>
+        <script src="https://cdn.jsdelivr.net/npm/brython@3.8.10/brython_stdlib.js"> </script>
     </head>
 
-<body>
+<body onload="brython()">
     <header class="topline">
         <a class="menu" href="https://www.kmitl.ac.th/">KMITL</a>
     </header>
@@ -22,24 +24,23 @@
         The Calorie Calculator can be used to estimate the number of calories a person needs to consume each day. This calculator can also provide some simple guidelines for gaining or losing weight.
 <form class="userdata">
   <label for="age">Age:</label><br>
-  <input type="text" id="age" name="age"><br>
+  <input type="number" id="age" name="age"><br>
   <label for="hight">Hight:</label><br>
-  <input type="text" id="hight" name="hight"><br>
+  <input type="number" id="hight" name="hight"><br>
   <label for="weight">weight:</label><br>
-  <input type="text" id="weight" name="weight"><br>
+  <input type="number" id="weight" name="weight"><br>
     <fieldset>
     <legend>Gender</legend>
       <div class="gender">
         <input type="radio" id="Male" name="gender" value="Male">
-        <label for="Male">Male</label><br>
+        <label for="gender">Male</label><br>
         <input type="radio" id="Female" name="gender" value="Female">
-        <label for="Female">Female</label><br>
+        <label for="gender">Female</label><br>
       </div>  
       <div class="acc">
         <legend>Activity</legend>
-        <select name="acc" id="activity">
+        <select name="act" id="activity">
           <option value="">--Please choose an option--</option>
-          <option value="1">Basal Metabolic Rate (BMR)</option>
           <option value="1.2">Sedentary: litle or no exercise</option>
           <option value="1.375">Light: exercise 1-3 times/week</option>
           <option value="1.465">Moderate: exercise 4-5 times/week</option>
@@ -50,10 +51,25 @@
       </div>
       <legend> </legend>
       <div class="Submit">
-        <input type="submit"onclick="SubmitEvent">
+        <input type="button" id="submit" value="calculate">
       </div>
+      <script type="text/python" id="calculator1">
+      from browser import document, ajax, alert
+      def calculate(ev):
+        age = document['age'].value
+        hight = document['hight'].value
+        weight = document['weight'].value
+        act = document['activity'].value
+        if document.getElementById("Male").checked:
+          BMR = 66 + (13.7*float(weight)) + (5*float(hight)) - (6.8*float(age))
+        if document.getElementById("Female").checked:
+          BMR = 665 + (9.6*float(weight)) + (1.8*float(hight)) - (4.7*float(age))
+        BMRX = BMR * float(act)
+        alert(' พลังงานที่จำเป็นพื้นฐานในการมีชีวิตของคุณ คือ  %.0f กิโลแคลอรี่\n พลังงานที่คุณใช้ในแต่ละวัน คือ %.0f กิโลแคลอรี่'% (BMR, BMRX))
+      document['submit'].bind('click', calculate)
+      </script>
+      <script language="Javascript"></script>
     </fieldset>
   </form>
 </body>
-</script>
 </html>

@@ -1,2 +1,6 @@
 """Calculator"""
-if gender == "male":
+import sys 
+def main():
+    """test"""
+    
+    
